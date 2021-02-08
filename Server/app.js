@@ -59,7 +59,7 @@ app.post('/postData',(req,res)=>
         }
         else
         {
-            let table_sql="CREATE TABLE "+name+"(id INT AUTO_INCREMENT PRIMARY KEY,note VARCHAR(16000));";
+            let table_sql="CREATE TABLE "+name+"(id INT AUTO_INCREMENT PRIMARY KEY,title VARCHAR(100) NOT NULL,note VARCHAR(15900) NOT NULL);";
             let table_query=connection.query(table_sql,(error,reslt)=>
             {
                 if (error) throw error;
@@ -89,6 +89,31 @@ app.get('/users/:username',(req,res)=>
         else
         {
             res.send(results);
+        }
+    });
+});
+
+app.post('/users/post/:username',(req,res)=>
+{
+    let username=req.params.username;
+    let {title}=req.body;
+    let {note}=req.body;
+    const sql=`INSERT INTO ${username}(title,note) VALUES(?,?);`;
+    const query=connection.query(sql,[title,note],(error,result)=>
+    {
+        if (error)
+        {
+            throw error;
+        }
+        else
+        {
+            const postNote=
+            {
+                id:result.insertId,
+                title:title,
+                note:note
+            };
+            res.send(postNote);
         }
     });
 });

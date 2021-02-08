@@ -1,6 +1,5 @@
+let username=localStorage.getItem('username');
 window.onload = function () {
-    let username=localStorage.getItem('username');
-    console.log(username);
     fetch('http://localhost:5500/users/'+username)
         .then((response) => response.json())
         .then((data) => {
@@ -19,7 +18,7 @@ function loadNotes(data) {
             html += `
             <div class="noteCard my-2 mx-2 card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Note</h5>
+                        <h5 class="card-title">${element.title}</h5>
                         <p class="card-text"> ${element.note}</p>
                         <button class="btn btn-primary">Delete Note</button>
                     </div>
@@ -28,3 +27,21 @@ function loadNotes(data) {
     }
     notes.innerHTML = html;
 }
+
+document.getElementById('addBtn').addEventListener('click',()=>
+{
+    let title=document.getElementById('addTitle').value;
+    let note=document.getElementById('addTxt').value;
+    fetch('http://localhost:5500/users/post/'+username,
+    {
+        headers:{
+            'Content-type':'application/json'
+        },
+        method:'POST',
+        body:JSON.stringify({title:title,note:note})
+    })
+    .then((response)=>response.json())
+    .then((data)=>{
+        location.reload();
+    });
+});
