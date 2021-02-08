@@ -10,7 +10,6 @@ window.onload = function () {
         });
 }
 
-
 function checkName() {
     var name = document.getElementById("username");
     var naRegx = /^([a-z A-Z]+){5,40}$/;
@@ -68,7 +67,7 @@ function checkEmail() {
         if (userExist==false)
         {
             email.style.border = "1px solid #e1e1e1";
-            document.getElementById("lb1").style.display = "none";
+            document.getElementById("lb2").style.display = "none";
             return true;
         }
         else
@@ -126,7 +125,8 @@ function checkAll() {
         )
             .then((response) => response.json())
             .then((data) => {
-                location.href = "login_page.html";
+                localStorage.setItem('username',name);
+                location.href = "notes_page.html";
             });
     }
 }

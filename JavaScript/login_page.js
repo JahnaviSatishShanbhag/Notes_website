@@ -10,24 +10,26 @@ window.onload = function () {
         });
 }
 
-function checkDetails()
-{
-    let username=document.getElementById('username').value;
-    let password=document.getElementById('password').value;
-    let userExist=false;
-    users_data.forEach((user)=>
-    {
-        if (username==user.name && password==user.password)
-        {
-            userExist=true;
+function checkDetails() {
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
+    let userExist = false;
+    users_data.forEach((user) => {
+        if (username == user.name && password == user.password) {
+            userExist = true;
         }
     });
-    if (userExist==true)
-    {
-        location.href="signup_page.html";
+    return userExist;
+}
+
+function redirectYourPage() {
+    let userIsThere = checkDetails();
+    if (userIsThere == true) {
+        let username = document.getElementById('username').value;
+        localStorage.setItem('username',username);
+        location.href = "notes_page.html";
     }
-    else
-    {
-        document.getElementById('lb3').style.display='inline';
+    else {
+        document.getElementById('lb3').style.display = 'inline';
     }
 }

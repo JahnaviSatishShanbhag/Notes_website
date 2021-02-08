@@ -59,6 +59,11 @@ app.post('/postData',(req,res)=>
         }
         else
         {
+            let table_sql="CREATE TABLE "+name+"(id INT AUTO_INCREMENT PRIMARY KEY,note VARCHAR(16000));";
+            let table_query=connection.query(table_sql,(error,reslt)=>
+            {
+                if (error) throw error;
+            });
             const postData=
             {
                 id:result.insertId,
@@ -67,6 +72,23 @@ app.post('/postData',(req,res)=>
                 password:password
             };
             res.send(postData);
+        }
+    });
+});
+
+app.get('/users/:username',(req,res)=>
+{
+    let username=req.params.username;
+    const sql='SELECT * FROM '+username;
+    const query=connection.query(sql,(error,results)=>
+    {
+        if (error)
+        {
+            throw error;
+        }
+        else
+        {
+            res.send(results);
         }
     });
 });
